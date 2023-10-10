@@ -5,12 +5,13 @@ const jwt = require('jsonwebtoken');
 const pool = require('../database');
 const { isLoggedIn } = require('../lib/auth');
 
-
+//a la vista sala
 router.get('/add', isLoggedIn, (req, res) => {
     //renderizar
     res.render('salas/add');
 });
 
+//crea las salas
 router.post('/add', isLoggedIn, async (req, res) => {
     const { title, xml, description } = req.body;
     const newSalas = {
@@ -37,11 +38,13 @@ router.post('/add', isLoggedIn, async (req, res) => {
     // res.send('recibido');
 });
 
+//muestra las salas
 router.get('/', isLoggedIn, async (req, res) => {
     const salas = await pool.query('SELECT * FROM salas where user_id = ?', [req.user.id]);
     res.render('salas/list', { salas });
 });
 
+//listado de salas
 router.get('/salasCompartidas', isLoggedIn, async (req, res) => {
     const idUs = req.user.id;
     console.log(idUs + 'id usuario');
@@ -50,6 +53,7 @@ router.get('/salasCompartidas', isLoggedIn, async (req, res) => {
     res.render('salas/listCompartidas', { salas });
 });
 
+//eliminar salas
 router.get('/delete/:id', async (req, res) => {
     console.log(req.params.id);
     const { id } = req.params;
@@ -60,6 +64,7 @@ router.get('/delete/:id', async (req, res) => {
     res.redirect('/salas');
 });
 
+//editar salas
 router.get('/edit/:id', isLoggedIn, async (req, res) => {
     const { id } = req.params;
     const salas = await pool.query('SELECT * FROM salas WHERE id = ?', [id]);
@@ -67,6 +72,7 @@ router.get('/edit/:id', isLoggedIn, async (req, res) => {
     res.render('salas/edit', { sala: salas[0] });
 });
 
+//editar salas
 router.post('/edit/:id', isLoggedIn, async (req, res) => {
     const { id } = req.params;
     const { title, description, xml } = req.body;
@@ -80,6 +86,7 @@ router.post('/edit/:id', isLoggedIn, async (req, res) => {
     res.redirect('/salas');
 });
 
+//dentro de sala
 router.get('/inSala/:tokenS', isLoggedIn, async (req, res) => {
     const tokenU = req.user.tokenU;
     console.log(tokenU + 'token de usuario');
@@ -92,6 +99,7 @@ router.get('/inSala/:tokenS', isLoggedIn, async (req, res) => {
     res.redirect(xml);
 });
 
+//lista de usuarios por sala
 router.get('/listUsuarios/:idSala', isLoggedIn, async (req, res, idS) => {
     const { idSala } = req.params;
 
@@ -102,7 +110,7 @@ router.get('/listUsuarios/:idSala', isLoggedIn, async (req, res, idS) => {
     res.render('salas/listUsuarios', { users, idSala });
 });
 
-
+//compartir sala por id
 router.post('/compartir/:idSala', isLoggedIn, async (req, res,) => {
     console.log('hola');
     console.log(req.body);

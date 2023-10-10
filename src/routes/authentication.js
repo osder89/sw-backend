@@ -6,11 +6,14 @@ const passport = require('passport');
 const { isLoggedIn } = require('../lib/auth');
 const { isNotLoggedIn } = require('../lib/auth');
 // SIGNUP
+//reedirecciona a la pagina de crear usuario
 router.get('/signup', (req, res) => {
+  
   res.render('auth/signup');
 });
 
 //reglase
+//reedirecciona a la pagina de crear usuario 
 router.post('/signup', passport.authenticate('local.signup', {
   successRedirect: '/profile',
   failureRedirect: '/signup',
@@ -18,10 +21,12 @@ router.post('/signup', passport.authenticate('local.signup', {
 }));
 
 // SINGIN
+//reedirecciona a la pagina de inicio de sesion
 router.get('/signin', (req, res) => {
   res.render('auth/signin');
 });
 
+//iniciar sesion
 router.post('/signin', (req, res, next) => {
   //   req.check('username', 'Username is Required').notEmpty();
   //   req.check('password', 'Password is Required').notEmpty();

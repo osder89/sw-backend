@@ -3,6 +3,7 @@ const router = express.Router();
 
 const pool = require('../database');
 
+//login
 router.get('/user/:tokenU', async (req, res) => {
     const { tokenU } = req.params;
     console.log(tokenU + 'tokenUser');
@@ -19,6 +20,7 @@ router.get('/user/:tokenU', async (req, res) => {
     res.json(respuesta);
 });
 
+//guardar diagramas 
 router.put('/guardar-diagrama/:tokenS', async (req, res) => {
     const { tokenS } = req.params;
     console.log(req.params);
@@ -39,7 +41,7 @@ router.put('/guardar-diagrama/:tokenS', async (req, res) => {
     res.json({ status: 'Project Updated Successfully' });
 });
 
-
+//mostrar las salas
 router.get('/cargar-salas/:tokenS', async (req, res) => {
     console.log(req.params);
     console.log(req.params.tokenS);
